@@ -5,10 +5,30 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SecureLearnGPT</title>
+  <link rel="stylesheet" href="https://unpkg.com/destyle.css@3.0.2/destyle.min.css">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-  <h1>SecureLearnGPT</h1>
+  <section id="top" class="basePageContainer js-basePageContainer is-active">
+    <h1>トップ画面</h1>
+    <button onclick="pageChanger('problem')">開始</button>
+  </section>
+
+  <section id="problem" class="basePageContainer js-basePageContainer">
+    <h1>問題提示画面</h1>
+  </section>
+
+  <section id="answer" class="basePageContainer js-basePageContainer">
+    <h1>問題解説提示画面</h1>
+  </section>
+
+  <section id="problemError" class="basePageContainer js-basePageContainer">
+    <h1>問題取得エラー画面</h1>
+  </section>
+
+  <section id="answerError" class="basePageContainer js-basePageContainer">
+    <h1>問題解説取得エラー画面</h1>
+  </section>
 
   <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
