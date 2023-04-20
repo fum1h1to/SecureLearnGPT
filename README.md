@@ -10,6 +10,7 @@ ChatGPTを用いた情報セキュリティトレーニングツール
     ```
 
 2. 仮想環境の有効化
+
     開発環境がLinux, Macの場合
     ```
     source venv/bin/activate
@@ -30,7 +31,7 @@ ChatGPTを用いた情報セキュリティトレーニングツール
     pip install -r requirements.txt
     ```
 
-4. アプリの軌道
+4. アプリの起動
     ```
     python server.py
     ```
