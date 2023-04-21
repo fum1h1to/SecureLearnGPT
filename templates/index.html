@@ -30,14 +30,14 @@
       </div>
       <div class="questionBox js-problem-questionBox">
         <div class="alert alert-danger js-problem-alert mb-3" role="alert">エラーメッセージ表示</div>
-        <form class="js-problem-form">
+        <form class="js-problem-answerForm">
           <div class="mb-3 js-problem-question">
             <label class="questionBox__label form-label d-flex justify-content-start align-items-start">
               <span class="ttl fw-bold">問題1：</span>
               <span class="cont js-problem-questionTxt">問題取得中...</span>
             </label>
             <div class="form-floating">
-              <textarea class="questionBox__textArea form-control js-problem-answerTxt" placeholder="回答欄（200文字以内）" name="question1"></textarea>
+              <textarea id="question1" class="questionBox__textArea form-control js-problem-answerTxt" placeholder="回答欄（200文字以内）"></textarea>
               <label>回答欄（200文字以内）</label>
             </div>
             <p class="cap">現在<span class="js-problem-answerTxtCounter">0</span>文字</p>
@@ -48,7 +48,7 @@
               <span class="cont js-problem-questionTxt">問題取得中...</span>
             </label>
             <div class="form-floating">
-              <textarea class="questionBox__textArea form-control js-problem-answerTxt" placeholder="回答欄（200文字以内）" name="question2"></textarea>
+              <textarea id="question2" class="questionBox__textArea form-control js-problem-answerTxt" placeholder="回答欄（200文字以内）"></textarea>
               <label>回答欄（200文字以内）</label>
             </div>
             <p class="cap">現在<span class="js-problem-answerTxtCounter">0</span>文字</p>
@@ -59,7 +59,7 @@
               <span class="cont js-problem-questionTxt">問題取得中...</span>
             </label>
             <div class="form-floating">
-              <textarea class="questionBox__textArea form-control js-problem-answerTxt" placeholder="回答欄（200文字以内）" name="question3"></textarea>
+              <textarea id="question3" class="questionBox__textArea form-control js-problem-answerTxt" placeholder="回答欄（200文字以内）"></textarea>
               <label>回答欄（200文字以内）</label>
             </div>
             <p class="cap">現在<span class="js-problem-answerTxtCounter">0</span>文字</p>
@@ -70,7 +70,7 @@
               <span class="cont js-problem-questionTxt">問題取得中...</span>
             </label>
             <div class="form-floating">
-              <textarea class="questionBox__textArea form-control js-problem-answerTxt" placeholder="回答欄（200文字以内）" name="question4"></textarea>
+              <textarea id="question4" class="questionBox__textArea form-control js-problem-answerTxt" placeholder="回答欄（200文字以内）"></textarea>
               <label>回答欄（200文字以内）</label>
             </div>
             <p class="cap">現在<span class="js-problem-answerTxtCounter">0</span>文字</p>
@@ -79,7 +79,12 @@
       </div>
       <div class="controlArea d-flex justify-content-around js-problem-controlArea">
         <button class="btn btn-secondary px-5 js-toTopBtn">トップへ</button>
-        <button class="btn btn-primary px-5 js-problem-answer">回答する</button>
+        <button class="controlArea__answerBtn btn btn-primary px-5 js-problem-answer">
+          回答する
+          <div class="spinner-grow text-light spinner-grow-sm" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </button>
       </div>
     </div>
   </section>

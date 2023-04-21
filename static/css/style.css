@@ -85,6 +85,10 @@ ex) #top .hoge {
   opacity: 1;
 }
 
+#problem .controlArea__answerBtn.is-loading .spinner-grow {
+  display: inline-block;
+}
+
 /* ------------------------------------ 
 ↓ answer画面のスタイル ↓
 --------------------------------------- */

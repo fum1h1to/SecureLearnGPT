@@ -98,7 +98,14 @@ class ProblemPage {
     
     const answerBtn = document.querySelector(this.pageId + ' .js-problem-answer');
     answerBtn.addEventListener('click', () => {
-      this.#showErrorDialog('error');
+      if(this.#checkValidation()) {
+        this.#disableErrorDialog();
+
+        answerBtn.classList.add('is-loading');
+
+        // 回答を送信して結果を取得、answerページに遷移する処理
+        // answerPage.sendAnswer();
+      }
     });
 
     this.#init();
@@ -124,9 +131,9 @@ class ProblemPage {
       questionTxt.textContent = '問題取得中...';
     });
 
-    const alertMessage = document.querySelector(this.pageId + ' .js-problem-alert');
-    alertMessage.classList.remove('is-active');
-    alertMessage.textContent = "";
+    document.querySelector(this.pageId + ' .js-problem-answer').classList.remove('is-loading');
+
+    this.#disableErrorDialog();
   }
 
   toProblemPage = () => {
@@ -134,6 +141,27 @@ class ProblemPage {
     pageViewChanger('problem');
     
     this.#getProblemData();  
+  }
+
+  backWithError(message) {
+    this.#showErrorDialog(message);
+    document.querySelector(this.pageId + ' .js-problem-answer').classList.remove('is-loading');
+    pageViewChanger('problem');
+  }
+
+  #checkValidation() {
+    for(let i = 0; i < 4; i++) {
+      const questionTxt = document.getElementById('question' + (i + 1));
+      if (questionTxt.value === "") {
+        this.#showErrorDialog('入力されていない項目があります。');
+        return false;
+      }
+      if (questionTxt.value.length > 200) {
+        this.#showErrorDialog('200文字以内で入力してください。');
+        return false;
+      }
+    }
+    return true;
   }
 
   #getProblemData() {
@@ -202,6 +230,12 @@ class ProblemPage {
     const alertMessage = document.querySelector(this.pageId + ' .js-problem-alert');
     alertMessage.classList.add('is-active');
     alertMessage.textContent = message;
+  }
+
+  #disableErrorDialog() {
+    const alertMessage = document.querySelector(this.pageId + ' .js-problem-alert');
+    alertMessage.classList.remove('is-active');
+    alertMessage.textContent = "";
   }
 }
 
