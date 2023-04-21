@@ -75,7 +75,7 @@ class TopPage {
     
   }
 
-  toTopPage = () => {
+  toTopPage() {
     pageViewChanger('top');
   }
 }
@@ -98,13 +98,13 @@ class ProblemPage {
     
     const answerBtn = document.querySelector(this.pageId + ' .js-problem-answer');
     answerBtn.addEventListener('click', () => {
-      this.toProblemPage();
+      this.#showErrorDialog('error');
     });
 
     this.#init();
   }
 
-  #init = () => {
+  #init() {
     document.querySelector(this.pageId + ' .js-problem-progress').classList.add('is-active');
 
     if (this.cenarioTyped) {
@@ -124,8 +124,9 @@ class ProblemPage {
       questionTxt.textContent = '問題取得中...';
     });
 
-  
-    // this.#getProblemData();
+    const alertMessage = document.querySelector(this.pageId + ' .js-problem-alert');
+    alertMessage.classList.remove('is-active');
+    alertMessage.textContent = "";
   }
 
   toProblemPage = () => {
@@ -196,6 +197,12 @@ class ProblemPage {
       });
     });
   }
+
+  #showErrorDialog(message) {
+    const alertMessage = document.querySelector(this.pageId + ' .js-problem-alert');
+    alertMessage.classList.add('is-active');
+    alertMessage.textContent = message;
+  }
 }
 
 /* ----------------------------
@@ -218,7 +225,7 @@ class ProblemErrorPage {
     });
   }
 
-  toProblemErrorPage = (message) => {
+  toProblemErrorPage(message) {
     document.querySelector(this.pageId + ' .js-problemError-alert').textContent = message;
     pageViewChanger('problemError');
   }

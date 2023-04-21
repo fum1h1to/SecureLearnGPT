@@ -30,6 +30,13 @@ ex) #top .hoge {
   max-width: 800px;
 }
 
+#problem .alert {
+  display: none;
+}
+#problem .alert.is-active {
+  display: block;
+}
+
 #problem .scenarioBox__txt {
   min-height: 8em;
 }
