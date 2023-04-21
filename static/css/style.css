@@ -26,8 +26,29 @@ ex) #top .hoge {
 /* ------------------------------------ 
 ↓ problem画面のスタイル ↓
 --------------------------------------- */
+#problem .container {
+  max-width: 800px;
+}
 
+#problem .scenarioBox__txt {
+  min-height: 10em;
+}
 
+#problem .problemBox {
+  margin-top: 60px;
+}
+
+#problem .problemBox__label .ttl {
+  width: 4.25em;
+}
+
+#problem .problemBox__label .cont {
+  width: calc(100% - 4.25em);
+}
+
+#problem .controlArea {
+  margin-top: 80px;
+}
 
 /* ------------------------------------ 
 ↓ answer画面のスタイル ↓
