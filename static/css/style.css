@@ -23,7 +23,7 @@ ex) #top .hoge {
 #top .background-set{
   min-height: 100vh;
   background: url(image/top-background.jpg);
-  background-size: 100%;
+  background-size: cover;
 }
 
 
