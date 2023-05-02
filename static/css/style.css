@@ -41,8 +41,68 @@ ex) #top .hoge {
 /* ------------------------------------ 
 ↓ problem画面のスタイル ↓
 --------------------------------------- */
+#problem .container {
+  max-width: 800px;
+}
 
+#problem .alert {
+  display: none;
+}
+#problem .alert.is-active {
+  display: block;
+}
 
+#problem .scenarioBox__txt {
+  min-height: 8em;
+}
+
+#problem .spinner-grow {
+  display: none;
+}
+#problem .spinner-grow.is-active {
+  display: inline-block;
+}
+
+#problem .questionBox {
+  margin-top: 60px;
+  opacity: 0;
+  transition: .5s;
+}
+
+#problem .questionBox.is-active {
+  opacity: 1;
+}
+
+#problem .questionBox__label .ttl {
+  width: 4.25em;
+}
+
+#problem .questionBox__label .cont {
+  width: calc(100% - 4.25em);
+}
+
+#problem .questionBox__textArea {
+  height: 5em;
+}
+
+#problem .questionBox .cap {
+  color: #666;
+  text-align: right;
+}
+
+#problem .controlArea {
+  margin-top: 80px;
+  opacity: 0;
+  transition: .5s;
+}
+
+#problem .controlArea.is-active {
+  opacity: 1;
+}
+
+#problem .controlArea__answerBtn.is-loading .spinner-grow {
+  display: inline-block;
+}
 
 /* ------------------------------------ 
 ↓ answer画面のスタイル ↓
@@ -53,7 +113,13 @@ ex) #top .hoge {
 /* ------------------------------------ 
 ↓ problemError画面のスタイル ↓
 --------------------------------------- */
+#problemError .container {
+  max-width: 800px;
+}
 
+#problemError .controlArea {
+  margin-top: 80px;
+}
 
 
 /* ------------------------------------ 
