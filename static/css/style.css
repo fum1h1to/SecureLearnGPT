@@ -124,12 +124,7 @@ ex) #top .hoge {
 
 #answer .questionBox {
   margin-top: 60px;
-  opacity: 1;
   transition: .5s;
-}
-
-#answer .questionBox.is-active {
-  opacity: 1;
 }
 
 #answer .questionBox__label .ttl {
@@ -141,7 +136,7 @@ ex) #top .hoge {
 }
 
 #answer .questionBox__textArea {
-  height: 5em;
+  min-height: 5em;
 }
 
 #answer .questionBox .cap {
@@ -151,12 +146,7 @@ ex) #top .hoge {
 
 #answer .controlArea {
   margin-top: 80px;
-  opacity: 1;
   transition: .5s;
-}
-
-#answer .controlArea.is-active {
-  opacity: 1;
 }
 
 #answer .controlArea__answerBtn.is-loading .spinner-grow {
