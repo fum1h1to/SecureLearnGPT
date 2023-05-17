@@ -104,6 +104,165 @@ class ProblemPage {
         answerBtn.classList.add('is-loading');
 
         // 回答を送信して結果を取得、answerページに遷移する処理
+        answerPage.sendAnswer();
+      }
+    });
+
+    this.#init();
+  }
+
+  #init() {
+    document.querySelector(this.pageId + ' .js-problem-progress').classList.add('is-active');
+
+    if (this.cenarioTyped) {
+      this.cenarioTyped.destroy();
+    }
+
+    document.querySelector(this.pageId + ' .js-problem-questionBox').classList.remove('is-active');
+    document.querySelector(this.pageId + ' .js-problem-controlArea').classList.remove('is-active');
+
+    this.questionEles.forEach((ele) => {
+      const answerTxt = ele.querySelector('.js-problem-answerTxt');
+      const answerTxtCounter = ele.querySelector('.js-problem-answerTxtCounter');
+      answerTxt.value = "";
+      answerTxtCounter.textContent = answerTxt.value.length;
+
+      const questionTxt = ele.querySelector('.js-problem-questionTxt');
+      questionTxt.textContent = '問題取得中...';
+    });
+
+    document.querySelector(this.pageId + ' .js-problem-answer').classList.remove('is-loading');
+
+    this.#disableErrorDialog();
+  }
+
+  toProblemPage = () => {
+    this.#init();
+    pageViewChanger('problem');
+    
+    this.#getProblemData();  
+  }
+
+  backWithError(message) {
+    this.#showErrorDialog(message);
+    document.querySelector(this.pageId + ' .js-problem-answer').classList.remove('is-loading');
+    pageViewChanger('problem');
+  }
+
+  #checkValidation() {
+    for(let i = 0; i < 4; i++) {
+      const questionTxt = document.getElementById('question' + (i + 1));
+      if (questionTxt.value === "") {
+        this.#showErrorDialog('入力されていない項目があります。');
+        return false;
+      }
+      if (questionTxt.value.length > 200) {
+        this.#showErrorDialog('200文字以内で入力してください。');
+        return false;
+      }
+    }
+    return true;
+  }
+
+  #getProblemData() {
+    const sendOption = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+      }
+    };
+
+    fetch('/api/problem', sendOption)
+      .then(res => {
+        document.querySelector(this.pageId + ' .js-problem-progress').classList.remove('is-active');
+    
+        return res.json();
+      })
+      .then((res) => {
+        // console.log(res);
+        if (res.status == 0) {
+          this.scenario = res.scenario;
+          this.questions = res.questions;
+          this.#setProblemData();
+        } else {
+          console.log("失敗");
+          problemErrorPage.toProblemErrorPage(res.message);
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  #setProblemData() {
+    const problemScenario = document.querySelector(this.pageId + ' .js-problem-scenarioTxt');
+
+    this.cenarioTyped = new Typed(problemScenario, {
+      strings: [this.scenario],
+      typeSpeed: 25,
+      showCursor: false,
+      loop: false,
+      onComplete: () => {
+        this.questionEles.forEach((ele, index) => {
+          const questionTxt = ele.querySelector('.js-problem-questionTxt');
+          questionTxt.textContent = this.questions[index].question_txt;
+        });
+
+        document.querySelector(this.pageId + ' .js-problem-questionBox').classList.add('is-active');
+        document.querySelector(this.pageId + ' .js-problem-controlArea').classList.add('is-active');
+      }
+    });
+    
+  }
+
+  #initTextCounter() {
+    this.questionEles.forEach((ele) => {
+      const answerTxt = ele.querySelector('.js-problem-answerTxt');
+      const answerTxtCounter = ele.querySelector('.js-problem-answerTxtCounter');
+      answerTxtCounter.textContent = answerTxt.value.length;
+
+      answerTxt.addEventListener('keyup', () => {
+        answerTxtCounter.textContent = answerTxt.value.length;
+      });
+    });
+  }
+
+  #showErrorDialog(message) {
+    const alertMessage = document.querySelector(this.pageId + ' .js-problem-alert');
+    alertMessage.classList.add('is-active');
+    alertMessage.textContent = message;
+  }
+
+  #disableErrorDialog() {
+    const alertMessage = document.querySelector(this.pageId + ' .js-problem-alert');
+    alertMessage.classList.remove('is-active');
+    alertMessage.textContent = "";
+  }
+}
+
+/* ----------------------------
+answerページの処理
+----------------------------- */
+class AnswerPage {
+  pageId = "#answer";
+  cenarioTyped = null;
+  scenario = null;
+  questions = null;
+  questionEles = null;
+
+  constructor() {
+    this.questionEles = document.querySelectorAll(this.pageId + ' .js-problem-question');
+
+    this.#initTextCounter();
+    
+    const answerBtn = document.querySelector(this.pageId + ' .js-problem-answer');
+    answerBtn.addEventListener('click', () => {
+      if(this.#checkValidation()) {
+        this.#disableErrorDialog();
+
+        answerBtn.classList.add('is-loading');
+
+        // 回答を送信して結果を取得、answerページに遷移する処理
         // answerPage.sendAnswer();
       }
     });
@@ -179,6 +338,7 @@ class ProblemPage {
         return res.json();
       })
       .then((res) => {
+        // console.log(res);
         if (res.status == 0) {
           this.scenario = res.scenario;
           this.questions = res.questions;
@@ -237,13 +397,6 @@ class ProblemPage {
     alertMessage.classList.remove('is-active');
     alertMessage.textContent = "";
   }
-}
-
-/* ----------------------------
-answerページの処理
------------------------------ */
-class AnswerPage {
-  
 }
 
 /* ----------------------------
