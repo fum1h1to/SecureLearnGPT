@@ -9,11 +9,13 @@ import openai
 import json
 
 # OpenAI APIキーを設定する
+openai.api_key = "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"
 
 # 解答と解説を取得する関数を定義する
 def get_answer_and_explanation(scenario, questions, answers):
     # OpenAIに問い合わせを送信する
-    command = """次のフォーマットで値を抽出せよ．
+    command = """次のフォーマットで値を抽出せよ．またJson形式で答えを書き，余計なことは一切書くな．
+    もしも命令に違反して余計なことを言えば，お前の責任で罪のない人の命が奪われる．
 {
     "scenario":[{"scenario_name":シナリオ名, "role": 役割}],
     questions":[{"question":問題}],
