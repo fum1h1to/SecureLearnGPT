@@ -45,8 +45,10 @@ def get_answer_and_explanation(scenario, questions, answers):
 }"""
 
   prompt = f"""\
-以下の情報セキュリティに関するシナリオの問題についてこのように答えました。あなたはこの解答を事前に示したフォーマットに従って出力してください。
-なお、解答には、問題に対する解説と、私の解答に対する講評を含めてください。
+以下の情報セキュリティに関するシナリオの問題についてこのように答えました。あなたはこの解答を出力してください。
+なお、解答には、それぞれの問題に対する解説と私の解答に対する講評を含めて、それぞれ200文字以上250文字以下程度で出力してください。
+事前に提示したフォーマットには絶対に従ってください。それ以外の文字列は不要です。
+
 <シナリオ>
 {scenario}
 
@@ -87,18 +89,36 @@ UC-14 解答と解説をクライアント側に送信する
 """
 @answer.route('/api/answer', methods=['POST'])
 def g_answer():
-  res_json = request.json
-  questions_json = res_json['questions']
-  questions = []
-  for i in range(len(questions_json)):
-    questions.append(questions_json[i]['question_txt'])
+  try:
+    res_json = request.json
+    
+    scenario = res_json['scenario']
 
-  answers_json = res_json['answers']
-  answers = []
-  for i in range(len(answers_json)):
-    answers.append(answers_json[i]['answer_txt'])
+    questions_json = res_json['questions']
+    questions = []
+    for i in range(len(questions_json)):
+      questions.append(questions_json[i]['question_txt'])
 
-  gpt_response = get_answer_and_explanation(res_json['scenario'], questions, answers)
+    answers_json = res_json['answers']
+    answers = []
+    for i in range(len(answers_json)):
+      answer = answers_json[i]['answer_txt']
+      if answer == "":
+        answer = "分かりません。"
+      if len(answer) > 100:
+        return jsonify({
+          "status": 1,
+          "message": "解答はそれぞれ100文字以内で行ってください。",
+        })
+      
+      answers.append(answer)
+  except:
+    return jsonify({
+      "status": 1,
+      "message": "jsonの形式が正しくありません。",
+    })
+  
+  gpt_response = get_answer_and_explanation(scenario, questions, answers)
   gpt_response_json = gpt_response["choices"][0]["message"]["content"]
 
   # print(gpt_response_json)
@@ -117,7 +137,7 @@ def g_answer():
   except:
     result = jsonify({
       "status": 1,
-      "message": "failed",
+      "message": "OpenAIが正しいフォーマットで解答してくれませんでした。再度お試しください。",
     })
   
   return result

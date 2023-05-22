@@ -168,8 +168,8 @@ class ProblemPage {
         this.#showErrorDialog('入力されていない項目があります。');
         return false;
       }
-      if (questionTxt.value.length > 200) {
-        this.#showErrorDialog('200文字以内で入力してください。');
+      if (questionTxt.value.length > 100) {
+        this.#showErrorDialog('100文字以内で入力してください。');
         return false;
       }
     }
@@ -212,7 +212,7 @@ class ProblemPage {
 
     this.cenarioTyped = new Typed(problemScenario, {
       strings: [this.scenario],
-      typeSpeed: 25,
+      typeSpeed: 50,
       showCursor: false,
       loop: false,
       onComplete: () => {
@@ -434,10 +434,10 @@ const pageChanger = (pageId, message) => {
       answerPage.toAnswerPage(message);
       break
     case 'problemError':
-      problemPage.toProblemPage(message);
+      problemErrorPage.toProblemErrorPage(message);
       break
     case 'answerError':
-      answerPage.toAnswerPage(message);
+      answerErrorPage.toAnswerErrorPage(message);
       break
     default:
       console.error(pageId + 'というページは存在しません。');
