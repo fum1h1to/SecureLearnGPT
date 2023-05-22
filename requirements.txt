@@ -1,1 +1,3 @@
 flask
+openai
+python-dotenv==0.20.0

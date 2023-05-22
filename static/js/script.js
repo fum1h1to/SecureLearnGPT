@@ -230,14 +230,6 @@ class ProblemPage {
 
   // 回答を送信する処理
   async #getAnswerData() {
-    const questions_json = [];
-    this.questions.forEach((question, index) => {
-      questions_json.push({
-        question_num: index + 1,
-        question_txt: question,
-      });
-    });
-
     const answers_json = [];
     const answerTxts = document.querySelectorAll(this.pageId + ' .js-problem-answerTxt');
     answerTxts.forEach((answerTxt, index) => {
@@ -254,7 +246,7 @@ class ProblemPage {
       },
       body: JSON.stringify({
         scenario: this.scenario,
-        questions: questions_json,
+        questions: this.questions,
         answers: answers_json
       })
     };
