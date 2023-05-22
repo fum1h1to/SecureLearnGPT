@@ -15,7 +15,7 @@ ChatGPTを用いた情報セキュリティトレーニングツール
     ```
     source venv/bin/activate
     ```
-
+v
     開発環境がWindowsの場合
     ```
     .\venv\Scripts\activate
@@ -31,7 +31,18 @@ ChatGPTを用いた情報セキュリティトレーニングツール
     pip install -r requirements.txt
     ```
 
-4. アプリの起動
+4. envファイルの準備
+
+    `.env.sample`を`.env`としてコピーし中にopenaiのapikeyを入れる
+
+    ```
+    cp .env.sample .env
+    ```
+    ```
+    OPENAI_APIKEY="sk-xxx"
+    ```
+
+5. アプリの起動
     ```
     python server.py
     ```
