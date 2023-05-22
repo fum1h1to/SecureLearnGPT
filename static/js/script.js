@@ -118,6 +118,8 @@ class ProblemPage {
           }
           pageChanger('answer', message);
         }
+        
+        answerBtn.classList.remove('is-loading');
       }
     });
 
@@ -330,10 +332,13 @@ class AnswerPage {
 
   // このページの初期化処理
   #init() {
+    const questionBox = document.querySelector(this.pageId + ' .js-answer-questionBox');
+    questionBox.classList.remove('is-active');
+
     const questionEles = document.querySelectorAll(this.pageId + ' .js-problem-question');
     questionEles.forEach((ele) => {
       const questionTxt = ele.querySelector('.js-problem-questionTxt');
-      questionTxt.textContent = '回答取得中...';
+      questionTxt.textContent = '解説取得中...';
 
       const answerTxt = ele.querySelector('.js-problem-answerTxt');
       answerTxt.textContent = '';
@@ -344,9 +349,14 @@ class AnswerPage {
 
   toAnswerPage = (message) => {
     this.#init();
-    console.log(message)
     this.#setAnswerData(message.scenario, message.questions, message.commentarys)
     pageViewChanger('answer');
+
+
+    setTimeout(() => {
+      const questionBox = document.querySelector(this.pageId + ' .js-answer-questionBox');
+      questionBox.classList.add('is-active');
+    }, 500);
   }
 
   #setAnswerData(scenario, questions, commentarys) {

@@ -13,7 +13,7 @@ ex) #top .hoge {
 }
 
 .basePageContainer.is-active {
-  display: block!important
+  display: block!important;
 }
 
 
@@ -125,6 +125,11 @@ ex) #top .hoge {
 #answer .questionBox {
   margin-top: 60px;
   transition: .5s;
+  opacity: 0;
+}
+
+#answer .questionBox.is-active {
+  opacity: 1;
 }
 
 #answer .questionBox__label .ttl {
