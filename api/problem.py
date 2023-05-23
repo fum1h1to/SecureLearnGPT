@@ -17,13 +17,15 @@ def creScenario():
                 "content": """実際にセキュリティ的なインシデントについてシナリオだけを一つ作ってください。シナリオは250文字以上300文字以下程度の分量とします。その後、問題を出題してください。なお、フォーマットは以下とします。またJson形式で読み取れるような形で出力してください。
 
 -------
+{
 "scenario": "シナリオの内容",
-            "questions": [
-              { "question_num": 1, "question_txt": "1番目の問題文" },
-              { "question_num": 2, "question_txt": "2番目の問題文" },
-              { "question_num": 3, "question_txt": "3番目の問題文" },
-              { "question_num": 4, "question_txt": "4番目の問題文" }
-            ]
+"questions": [
+  { "question_num": 1, "question_txt": "1番目の問題文" },
+  { "question_num": 2, "question_txt": "2番目の問題文" },
+  { "question_num": 3, "question_txt": "3番目の問題文" },
+  { "question_num": 4, "question_txt": "4番目の問題文" }
+]
+}
 -------
 
 あなたが、この直後出力する内容は、シナリオと問題文のみです。"""
@@ -34,11 +36,8 @@ def creScenario():
             },
         ],
     )
-    print(res)
-    print(res["choices"][0]["message"]["content"])
-    return res
 
-creScenario()
+    return res
 
 """
 UC-12 問題をクライアント側に送信する処理を作る
