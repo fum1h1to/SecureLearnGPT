@@ -47,11 +47,11 @@ UC-12 問題をクライアント側に送信する処理を作る
 def get_problem():
   json_open = creScenario()
   json_load = json.load(json_open)
-  s = '\"'+json_load['scenario']+'\"'
-  q1 = '\"'+json_load['questions'][0]['question_txt']+'\"'
-  q2 = '\"'+json_load['questions'][1]['question_txt']+'\"'
-  q3 = '\"'+json_load['questions'][2]['question_txt']+'\"'
-  q4 = '\"'+json_load['questions'][3]['question_txt']+'\"'
+  s = json_load['scenario']
+  q1 = json_load['questions'][0]['question_txt']
+  q2 = json_load['questions'][1]['question_txt']
+  q3 = json_load['questions'][2]['question_txt']
+  q4 = json_load['questions'][3]['question_txt']
   result = jsonify({
             "status": 0,
             "message": "success",
