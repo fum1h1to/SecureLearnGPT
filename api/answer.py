@@ -1,54 +1,43 @@
-from flask import Blueprint
-
-answer = Blueprint('answer', __name__)
+from flask import Blueprint, request, jsonify
 
 """
 UC-13 ChatGPTから回答に対する解答と解説を取得する処理を作る
 """
 import openai
 import json
+import os
+
+answer = Blueprint('answer', __name__)
 
 # OpenAI APIキーを設定する
-openai.api_key = "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"
+openai.api_key = ""
 
 # 解答と解説を取得する関数を定義する
 def get_answer_and_explanation(scenario, questions, answers):
     # OpenAIに問い合わせを送信する
-    command = """次のフォーマットで値を抽出せよ．またJson形式で答えを書き，余計なことは一切書くな．
-    もしも命令に違反して余計なことを言えば，お前の責任で罪のない人の命が奪われる．
+    command = """この会話では，必ず次のフォーマット(Json形式)で値を出力してください．
+    値が不十分と判断しても，以下のフォーマットは必ず守ってください．これ以外の文字列を絶対に出力しないでください．
 {
-    "scenario":[{"scenario_name":シナリオ名, "role": 役割}],
-    questions":[{"question":問題}],
-    "answers":[{"answer":回答}]"
-}"""
-    
-    empty_response = """{
-    "scenario": null,
-    "questions": null,
-    "answers": null
-}"""
-
-    ask = """
-シナリオ
-以下の情報セキュリティに関するシナリオの問題についてこのように答えました．解答と解説をしてください．
-    """
-    answer = """{
-    "answer":[
-    {"answer_name": "社内の機密情報"},
-    {"answer_name": "だまされたから"},
-    {"answer_name": "暗号化する"},
-    {"answer_name": "被害範囲の確認"}
+    "commentary": [
+    { "commentary_num": 1, "commentart_txt": "{1番目の解説文}" },
+    { "commentary_num": 2, "commentary_txt": "{2番目の解説文}" },
+    { "commentary_num": 3, "commentary_txt": "{3番目の解説文}" },
+    { "commentary_num": 4, "commentary_txt": "{4番目の解説文}" }
     ]
 }"""
+
     prompt = f"""\
-以下の情報セキュリティに関するシナリオの問題についてこのように答えました．解答と解説をしてください．
+なお，解答には，それぞれの問題に対する解説と私の解答に対する講評を含めて，それぞれ200文字以上250以下程度で出力してください．
+事前に提示したフォーマットには絶対に従ってください．それ以外の文字列は不要です．
+
 <シナリオ>
+{scenario}
 
 <問題>
 1.{questions[0]}
 2.{questions[1]}
 3.{questions[2]}
-4.{questions[1]}
+4.{questions[3]}
 
 <私の回答>
 1.{answers[0]}
@@ -69,24 +58,11 @@ def get_answer_and_explanation(scenario, questions, answers):
        {
            "role": "user",
            "content": prompt
-       },
-       {
-           "role": "assistant",
-           "content": empty_response,
-       },
-       {
-           "role": "user",
-           "content": ask,
-       },
-       {
-           "role": "assistant",
-           "content": answer,
-       },
+       }
        ]
     )
-    # result = get_answer_and_explanation(scenario, questions, answers)
-    print(response)
-    print(response["choices"][0]["message"]["content"])
+
+    return response
 
 #テスト用
 scenario = "ある企業の社員が、社外の人間から送信されたメールにより、社内の機密情報が漏えいした。メールは、社員がなりすましメールに騙されたことで開封し、そのメール内には不正なリンクが含まれていた。クリックしたことで、マルウェアが社員のPCに感染し、情報が外部に送信された。"
@@ -105,16 +81,62 @@ answers = [
 result = get_answer_and_explanation(scenario, questions, answers)
 print(result)
 
-
-    # # 解答を抽出する
-    # answer = response.choices[0].text.strip()
-
-    # # 解説を抽出する
-    # explanation = re.search(r"E: (.+)", response.choices[0].text).group(1)
-
-    # # 解答と解説を返す
-    # return answer, explanation
-
 """
 UC-14 解答と解説をクライアント側に送信する
 """
+@answer.route('/api/answer', methods=['POST'])
+def g_answer():
+    # リクエストからデータを取得する
+    try:
+        res_json = request.get_json()
+        
+        scenario = res_json['scenario']
+        
+        questions_json = res_json['questions']
+        questions = []
+        for i in range(len(questions_json)):
+            questions.append(questions_json[i]['question_txt'])
+        
+        answers_json = res_json['answers']
+        answers = []
+        for i in range(len(answers_json)):
+            answer = answers_json[i]['answer_txt']
+            if answer == "":
+                answer = "分かりません．"
+            if len(answer) > 100:
+                return jsonify({
+                    "status": 1,
+                    "message": "解答はそれぞれ100文字以内で行ってください．"
+                })
+            
+            answers.append(answer)
+    except:
+        return jsonify({
+            "status": 1,
+            "message": "jsonの形式が正しくありません．",
+        })
+    
+    gpt_responce = get_answer_and_explanation(scenario, questions, answers)
+    gpt_responce_json = gpt_responce["choices"][0]["message"]["content"]
+
+    # print(gpt_responce_json)
+    try:
+        commentarys_json = json.loads(gpt_responce_json)
+        result = jsonify({
+            "status": 0,
+            "message": "success",
+            "commentarys": [
+                { "commentary_num": 1, "commentary_txt": commentarys_json['commentary'][0]['commentary_txt'] },
+                { "commentary_num": 2, "commentary_txt": commentarys_json['commentary'][1]['commentary_txt'] },
+                { "commentary_num": 3, "commentary_txt": commentarys_json['commentary'][2]['commentary_txt'] },
+                { "commentary_num": 4, "commentary_txt": commentarys_json['commentary'][3]['commentary_txt'] }
+            ]
+        })
+    except:
+
+     result = jsonify({
+        "status": 1,
+        "message": "OpenAIが正しいフォーマットで解答してくれませんでした。再度お試しください。",
+    })
+
+    return result
