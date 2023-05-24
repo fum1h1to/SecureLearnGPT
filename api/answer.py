@@ -1,8 +1,4 @@
 from flask import Blueprint, request, jsonify
-
-"""
-UC-13 ChatGPTから回答に対する解答と解説を取得する処理を作る
-"""
 import openai
 import json
 import os
@@ -12,6 +8,9 @@ answer = Blueprint('answer', __name__)
 # OpenAI APIキーを設定する
 openai.api_key = ""
 
+"""
+UC-13 ChatGPTから回答に対する解答と解説を取得する処理を作る
+"""
 # 解答と解説を取得する関数を定義する
 def get_answer_and_explanation(scenario, questions, answers):
     # OpenAIに問い合わせを送信する
@@ -63,23 +62,6 @@ def get_answer_and_explanation(scenario, questions, answers):
     )
 
     return response
-
-#テスト用
-scenario = "ある企業の社員が、社外の人間から送信されたメールにより、社内の機密情報が漏えいした。メールは、社員がなりすましメールに騙されたことで開封し、そのメール内には不正なリンクが含まれていた。クリックしたことで、マルウェアが社員のPCに感染し、情報が外部に送信された。"
-questions = [
-    "このインシデントにより、何が漏えいしたのか？",
-    "なぜ社員はなりすましメールを開封してしまったのか？" ,
-    "このようなインシデントを防止するために、企業ができることは何か？" ,
-    "社員がマルウェアに感染してしまった場合、企業が取るべき対応策は何か？" ,
-    ]
-answers = [
-        "社内の機密情報",
-        "だまされたから",
-        "暗号化する",
-        "被害範囲の確認"
-        ]
-result = get_answer_and_explanation(scenario, questions, answers)
-print(result)
 
 """
 UC-14 解答と解説をクライアント側に送信する
