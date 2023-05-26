@@ -41,7 +41,7 @@ def creScenario():
         ],
     )
 
-    return res["choices"][0]["message"]["content"]
+    return res
 
 """
 UC-12 問題をクライアント側に送信する処理を作る
@@ -49,8 +49,10 @@ UC-12 問題をクライアント側に送信する処理を作る
 @problem.route('/api/problem', methods=['GET'])
 def get_problem():
   try:
-    json_open = creScenario()
-    json_load = json.load(json_open)
+    res = creScenario()
+    json_open = res["choices"][0]["message"]["content"]
+
+    json_load = json.loads(json_open)
     s = json_load['scenario']
     q1 = json_load['questions'][0]['question_txt']
     q2 = json_load['questions'][1]['question_txt']
