@@ -22,7 +22,7 @@ ex) #top .hoge {
 --------------------------------------- */
 #top .background-set{
   min-height: 100vh;
-  background: linear-gradient(25deg, rgba(242, 119, 203, 0.461), rgba(240, 238, 114, 0.625)),url(image/top-ground_tdu.jpg);
+  background: linear-gradient(25deg, rgba(212, 207, 63, 0.42), rgba(190, 66, 182, 0)),url(image/top-ground_tdu.jpg);
   background-size:cover;
 }
 #top .top-character{
@@ -31,11 +31,15 @@ ex) #top .hoge {
 #top .second-top{
   padding: 10px;
   margin: 20px;
+  text-decoration: underline ;
 }
 #top .explanation{
   padding: 10px;
   margin: auto;
+  border: 1px solid #454545;
 }
+
+
 
 
 /* ------------------------------------ 
