@@ -154,6 +154,7 @@ class ProblemPage {
 
   // このページに遷移する処理
   toProblemPage = () => {
+    window.scrollTo({top: 0});
     this.#init();
     pageViewChanger('problem');
     
@@ -258,7 +259,7 @@ class ProblemPage {
         return res.json();
       })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         if (res.status == 0) {
           const retCom = []
           res.commentarys.forEach((commentary) => {
@@ -342,6 +343,8 @@ class AnswerPage {
   toAnswerPage = (message) => {
     this.#init();
     this.#setAnswerData(message.scenario, message.questions, message.commentarys)
+    
+    window.scrollTo({top: 0});
     pageViewChanger('answer');
 
 

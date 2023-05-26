@@ -24,7 +24,7 @@ ex) #top .hoge {
   min-height: 100vh;
   background: linear-gradient(25deg, rgba(212, 207, 63, 0.42), rgba(190, 66, 182, 0)),url(image/top-ground_tdu.jpg);
   background-size:cover;
-  background-position: center;
+  background-position: center top;
 }
 #top .top-character{
   padding: 50px;
@@ -37,7 +37,7 @@ ex) #top .hoge {
 #top .explanation{
   padding: 10px;
   margin: auto;
-  border: 1px solid #454545;
+  /* border: 1px solid #454545; */
 }
 
 
