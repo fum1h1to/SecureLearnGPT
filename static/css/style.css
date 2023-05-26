@@ -72,10 +72,12 @@ ex) #top .hoge {
   margin-top: 60px;
   opacity: 0;
   transition: .5s;
+  pointer-events: none;
 }
 
 #problem .questionBox.is-active {
   opacity: 1;
+  pointer-events: auto;
 }
 
 #problem .questionBox__label .ttl {
@@ -99,10 +101,15 @@ ex) #top .hoge {
   margin-top: 80px;
   opacity: 0;
   transition: .5s;
+  pointer-events: none;
 }
 
 #problem .controlArea.is-active {
   opacity: 1;
+  pointer-events: auto;
+}
+#problem .controlArea__answerBtn.is-loading{
+  pointer-events: none;
 }
 
 #problem .controlArea__answerBtn.is-loading .spinner-grow {
@@ -131,10 +138,12 @@ ex) #top .hoge {
   margin-top: 60px;
   transition: .5s;
   opacity: 0;
+  pointer-events: none;
 }
 
 #answer .questionBox.is-active {
   opacity: 1;
+  pointer-events: auto;
 }
 
 #answer .questionBox__label .ttl {

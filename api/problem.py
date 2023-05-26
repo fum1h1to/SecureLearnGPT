@@ -1,10 +1,15 @@
+from flask import Blueprint, request, jsonify
 import openai
 import json
-from flask import Blueprint, jsonify
+import os
+from dotenv import load_dotenv
+
+# load envファイル
+load_dotenv()
 
 problem = Blueprint('problem', __name__)
 
-openai.api_key = ""
+openai.api_key = os.environ['OPENAI_APIKEY']
 
 """
 UC-11 ChatGPTから問題を取得する処理を作る
@@ -16,7 +21,6 @@ def creScenario():
             {
                 "role": "system",
                 "content": """実際にセキュリティ的なインシデントについてシナリオだけを一つ作ってください。シナリオは250文字以上300文字以下程度の分量とします。その後、問題を出題してください。なお、フォーマットは以下とします。またJson形式で読み取れるような形で出力してください。
-
 -------
 {
 "scenario": "シナリオの内容",
@@ -28,7 +32,6 @@ def creScenario():
 ]
 }
 -------
-
 あなたが、この直後出力する内容は、シナリオと問題文のみです。"""
             },
             {
