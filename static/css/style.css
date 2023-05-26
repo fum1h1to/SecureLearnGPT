@@ -1,0 +1,197 @@
+/* ------------------------------------
+個々のページのスタイルを定義する場合は、必ずページIDを最初に指定してください。
+ex) #top .hoge {
+  color: red;
+}
+--------------------------------------- */
+
+/* ------------------------------------ 
+↓ アプリ全体で使うスタイル ↓
+--------------------------------------- */
+.basePageContainer {
+  display: none;
+}
+
+.basePageContainer.is-active {
+  display: block!important;
+}
+
+
+/* ------------------------------------ 
+↓ Top画面のスタイル ↓
+--------------------------------------- */
+#top .background-set{
+  min-height: 100vh;
+  background: linear-gradient(25deg, rgba(212, 207, 63, 0.42), rgba(190, 66, 182, 0)),url(image/top-ground_tdu.jpg);
+  background-size:cover;
+  background-position: center top;
+}
+#top .top-character{
+  padding: 50px;
+}
+#top .second-top{
+  padding: 10px;
+  margin: 20px;
+  text-decoration: underline ;
+}
+#top .explanation{
+  padding: 10px;
+  margin: auto;
+  /* border: 1px solid #454545; */
+}
+
+
+
+
+/* ------------------------------------ 
+↓ problem画面のスタイル ↓
+--------------------------------------- */
+#problem .container {
+  max-width: 800px;
+}
+
+#problem .alert {
+  display: none;
+}
+#problem .alert.is-active {
+  display: block;
+}
+
+#problem .scenarioBox__txt {
+  min-height: 8em;
+}
+
+#problem .spinner-grow {
+  display: none;
+}
+#problem .spinner-grow.is-active {
+  display: inline-block;
+}
+
+#problem .questionBox {
+  margin-top: 60px;
+  opacity: 0;
+  transition: .5s;
+  pointer-events: none;
+}
+
+#problem .questionBox.is-active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#problem .questionBox__label .ttl {
+  width: 4.25em;
+}
+
+#problem .questionBox__label .cont {
+  width: calc(100% - 4.25em);
+}
+
+#problem .questionBox__textArea {
+  height: 5em;
+}
+
+#problem .questionBox .cap {
+  color: #666;
+  text-align: right;
+}
+
+#problem .controlArea {
+  margin-top: 80px;
+  opacity: 0;
+  transition: .5s;
+  pointer-events: none;
+}
+
+#problem .controlArea.is-active {
+  opacity: 1;
+  pointer-events: auto;
+}
+#problem .controlArea__answerBtn.is-loading{
+  pointer-events: none;
+}
+
+#problem .controlArea__answerBtn.is-loading .spinner-grow {
+  display: inline-block;
+}
+
+/* ------------------------------------ 
+↓ answer画面のスタイル ↓
+--------------------------------------- */
+#answer .container {
+  max-width: 800px;
+}
+
+#answer .alert {
+  display: none;
+}
+#answer .alert.is-active {
+  display: block;
+}
+
+#answer .scenarioBox__txt {
+  min-height: 8em;
+}
+
+#answer .questionBox {
+  margin-top: 60px;
+  transition: .5s;
+  opacity: 0;
+  pointer-events: none;
+}
+
+#answer .questionBox.is-active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#answer .questionBox__label .ttl {
+  width: 4.25em;
+}
+
+#answer .questionBox__label .cont {
+  width: calc(100% - 4.25em);
+}
+
+#answer .questionBox__textArea {
+  min-height: 5em;
+}
+
+#answer .questionBox .cap {
+  color: #666;
+  text-align: right;
+}
+
+#answer .controlArea {
+  margin-top: 80px;
+  transition: .5s;
+}
+
+#answer .controlArea__answerBtn.is-loading .spinner-grow {
+  display: inline-block;
+}
+
+
+/* ------------------------------------ 
+↓ problemError画面のスタイル ↓
+--------------------------------------- */
+#problemError .container {
+  max-width: 800px;
+}
+
+#problemError .controlArea {
+  margin-top: 80px;
+}
+
+
+/* ------------------------------------ 
+↓ answerError画面のスタイル ↓
+--------------------------------------- */
+#answerError .container {
+  max-width: 800px;
+}
+
+#answerError .controlArea {
+  margin-top: 80px;
+}
