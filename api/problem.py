@@ -1,5 +1,6 @@
 import openai
-from flask import Blueprint
+import json
+from flask import Blueprint, jsonify
 
 problem = Blueprint('problem', __name__)
 
@@ -37,23 +38,36 @@ def creScenario():
         ],
     )
 
-    return res
+    return res["choices"][0]["message"]["content"]
 
 """
 UC-12 問題をクライアント側に送信する処理を作る
 """
-# @problem.route('/api/problem', methods=['GET'])
-# def get_problem():
-#   result = jsonify({
-#             "status": 0,
-#             "message": "success",
-#             "scenario": "ある企業の社員が、社外の人間から送信されたメールにより、社内の機密情報が漏えいした。メールは、社員がなりすましメールに騙されたことで開封し、そのメール内には不正なリンクが含まれていた。クリックしたことで、マルウェアが社員のPCに感染し、情報が外部に送信された。",
-#             "questions": [
-#               { "question_num": 1, "question_txt": "このインシデントにより、何が漏えいしたのか？" },
-#               { "question_num": 2, "question_txt": "なぜ社員はなりすましメールを開封してしまったのか？" },
-#               { "question_num": 3, "question_txt": "このようなインシデントを防止するために、企業ができることは何か？" },
-#               { "question_num": 4, "question_txt": "社員がマルウェアに感染してしまった場合、企業が取るべき対応策は何か？" }
-#             ]
-#   })  
+@problem.route('/api/problem', methods=['GET'])
+def get_problem():
+  try:
+    json_open = creScenario()
+    json_load = json.load(json_open)
+    s = json_load['scenario']
+    q1 = json_load['questions'][0]['question_txt']
+    q2 = json_load['questions'][1]['question_txt']
+    q3 = json_load['questions'][2]['question_txt']
+    q4 = json_load['questions'][3]['question_txt']
+    result = jsonify({
+              "status": 0,
+              "message": "success",
+              "scenario": s,
+              "questions": [
+                { "question_num": 1, "question_txt": q1 },
+                { "question_num": 2, "question_txt": q2 },
+                { "question_num": 3, "question_txt": q3 },
+                { "question_num": 4, "question_txt": q4 }
+              ]
+    })  
+  except:
+    result = jsonify({
+      "status": 1,
+      "message": "エラーが発生しました。再度お試しください。"
+    })
 
-#   return result
+  return result
