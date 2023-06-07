@@ -20,19 +20,22 @@ def creScenario():
         messages=[
             {
                 "role": "system",
-                "content": """実際にセキュリティ的なインシデントについてシナリオだけを一つ作ってください。シナリオは250文字以上300文字以下程度の分量とします。その後、問題を出題してください。なお、フォーマットは以下とします。またJson形式で読み取れるような形で出力してください。
+                "content": """
+Please create only one scenario about an actual security incident. 
+The scenario should be between 250 and 300 words in length. The scenario should be directed to high school students and their parents.
+Then, please submit a question. The format should be as follows. The format should be as follows, and the output should be readable in Json format. Text should be in Japanese.
 -------
 {
-"scenario": "シナリオの内容",
+"scenario": "scenario text",
 "questions": [
-  { "question_num": 1, "question_txt": "1番目の問題文" },
-  { "question_num": 2, "question_txt": "2番目の問題文" },
-  { "question_num": 3, "question_txt": "3番目の問題文" },
-  { "question_num": 4, "question_txt": "4番目の問題文" }
+  { "question_num": 1, "question_txt": "question 1 text" },
+  { "question_num": 2, "question_txt": "question 2 text" },
+  { "question_num": 3, "question_txt": "question 3 text" },
+  { "question_num": 4, "question_txt": "question 4 text" }
 ]
 }
 -------
-あなたが、この直後出力する内容は、シナリオと問題文のみです。"""
+The only content you will output immediately following this is the scenario and the problem statement."""
             },
             {
                 "role": "user",

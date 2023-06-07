@@ -32,39 +32,39 @@ def get_answer_and_explanation(scenario, questions, answers):
 
   '''
   # OpenAIに問い合わせを送信する
-  command = """この会話では、必ず次のフォーマット(Json形式)で値を出力してください。
-値が不十分と判断しても、以下のフォーマットは必ず守ってください。
-これ以外の文字列を絶対に出力しないでください。
+  command = """In this conversation, be sure to output values in the following format (Json format).
+Even if you determine that the value is insufficient, be sure to keep the following format.
+Never output strings other than these. Text should be in Japanese.
 {
   "commentary": [
-  { "commentary_num": 1, "commentary_txt": "{1番目の解説文}" },
-  { "commentary_num": 2, "commentary_txt": "{2番目の解説文}" },
-  { "commentary_num": 3, "commentary_txt": "{3番目の解説文}" },
-  { "commentary_num": 4, "commentary_txt": "{4番目の解説文}" }
+  { "commentary_num": 1, "commentary_txt": "commentary 1 text" },
+  { "commentary_num": 3, "commentary_txt": "commentary 2 text" },
+  { "commentary_num": 2, "commentary_txt": "commentary 3 text" },
+  { "commentary_num": 4, "commentary_txt": "commentary 4 text" }
   ]
 }"""
 
   prompt = f"""\
-以下の情報セキュリティに関するシナリオの問題について以下に示すように答えました。
-あなた情報セキュリティの専門家として、私の回答に対するフィードバックを含めた文章を、それぞれ200文字以上250文字以下程度で出力してください。
-フィードバックには、正解していれば正解と示し、もっと回答が良くなるようなアドバイスと解説を入れてください。
-不正解であれば、その理由と、正解に近づけるためのアドバイスと解説を入れてください。
-事前に提示したフォーマットには絶対に従ってください。必ずjson形式で読み取れるように値を出力しなければいけません。
+I have answered the following information security scenario questions as indicated below.
+As your information security expert, please output a statement including feedback on my answers, each of which should be no less than 200 words and no more than 250 words.
+In your feedback, please indicate if you answered correctly and include advice and explanations that would improve your answer. The feedback should be directed to high school students and their parents.
+If incorrect, please include the reason for the incorrect answer, as well as advice and explanations on how to improve the answer. Text should be in Japanese.  
+Absolutely follow the format provided in advance. You must output the values in a format that can be read in json format; non-json strings are not required.
 
-<シナリオ>
+<scenario>
 {scenario}
 
-<問題と私の回答>
-問題1:{questions[0]}, 私の回答1:{answers[0]}
-問題2:{questions[1]}, 私の回答2:{answers[1]}
-問題3:{questions[2]}, 私の回答3:{answers[2]}
-問題4:{questions[3]}, 私の回答4:{answers[3]}
+<question and my answer>.
+Question 1:{questions[0]}, my answer 1:{answers[0]}
+Question 2:{questions[1]}, my answer 2:{answers[1]}
+Question 3:{questions[2]}, my answer 3:{answers[2]}
+Question 4:{questions[3]}, my answer 4:{answers[3]}
 \
 """
   prompt.format(scenario=scenario, questions=questions, answers=answers)
 
   response = openai.ChatCompletion.create(
-      model="gpt-3.5-turbo",
+      model="gpt-3.5-turbo-0301",
       messages=[
           {
           "role": "system",
@@ -116,6 +116,7 @@ def g_answer():
   
   gpt_response = get_answer_and_explanation(scenario, questions, answers)
   gpt_response_json = gpt_response["choices"][0]["message"]["content"]
+  print(gpt_response_json)
 
   # print(gpt_response_json)
   try:
