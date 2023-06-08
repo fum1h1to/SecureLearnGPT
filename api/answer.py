@@ -32,9 +32,23 @@ def get_answer_and_explanation(scenario, questions, answers):
 
   '''
   # OpenAIに問い合わせを送信する
-  command = """In this conversation, be sure to output values in the following format (Json format).
-Even if you determine that the value is insufficient, be sure to keep the following format.
-Never output strings other than these. Text should be in Japanese.
+  command = """You are an information security specialist.
+Please output your feedback on my answer based on the following constraints and expectations, input statement, and output format.
+
+# Constraints:
+- Feedback should be between 250 and 300 characters each.
+- The output must be readable in Json format according to the "Output Format".
+- Refer to the input text for "Scenario," "Question," and "My Answer".
+- There is one scenario and four questions and answers each.
+- Output must be in Japanese.
+
+# Expectations:
+My response to the "Question" for the security incident scenario.
+You output feedback on "My Answer".
+In the feedback, please indicate that it is correct if correct, and include advice and explanations that would improve the answer. If incorrect, please explain why and include advice and explanations on how to get closer to the correct answer.
+The feedback should also be directed to high school students and their parents.
+
+# Output format:
 {
   "commentary": [
   { "commentary_num": 1, "commentary_txt": "commentary 1 text" },
@@ -42,29 +56,25 @@ Never output strings other than these. Text should be in Japanese.
   { "commentary_num": 2, "commentary_txt": "commentary 3 text" },
   { "commentary_num": 4, "commentary_txt": "commentary 4 text" }
   ]
-}"""
+}
+"""
 
   prompt = f"""\
-I have answered the following information security scenario questions as indicated below.
-As your information security expert, please output a statement including feedback on my answers, each of which should be no less than 200 words and no more than 250 words.
-In your feedback, please indicate if you answered correctly and include advice and explanations that would improve your answer. The feedback should be directed to high school students and their parents.
-If incorrect, please include the reason for the incorrect answer, as well as advice and explanations on how to improve the answer. Text should be in Japanese.  
-Absolutely follow the format provided in advance. You must output the values in a format that can be read in json format; non-json strings are not required.
-
-<scenario>
+# Input text:
+<Scenario>
 {scenario}
 
 <question and my answer>.
-Question 1:{questions[0]}, my answer 1:{answers[0]}
-Question 2:{questions[1]}, my answer 2:{answers[1]}
-Question 3:{questions[2]}, my answer 3:{answers[2]}
-Question 4:{questions[3]}, my answer 4:{answers[3]}
+Question 1:{questions[0]}, My Answer 1:{answers[0]}
+Question 2:{questions[1]}, My Answer 2:{answers[1]}
+Question 3:{questions[2]}, My Answer 3:{answers[2]}
+Question 4:{questions[3]}, My Answer 4:{answers[3]}
 \
 """
   prompt.format(scenario=scenario, questions=questions, answers=answers)
 
   response = openai.ChatCompletion.create(
-      model="gpt-3.5-turbo-0301",
+      model="gpt-3.5-turbo",
       messages=[
           {
           "role": "system",

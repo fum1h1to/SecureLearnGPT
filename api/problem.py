@@ -20,11 +20,20 @@ def creScenario():
         messages=[
             {
                 "role": "system",
-                "content": """
-Please create only one scenario about an actual security incident. 
-The scenario should be between 250 and 300 words in length. The scenario should be directed to high school students and their parents.
-Then, please submit a question. The format should be as follows. The format should be as follows, and the output should be readable in Json format. Text should be in Japanese.
--------
+                "content": """You are an information security professional.
+Based on the following constraints, expectations and output format, please output a scenario about a security incident and its problem.
+
+# Constraints:
+- The length of the scenario must be between 250 and 300 words.
+- The output must be readable in Json format according to the "Output Format".
+- Output must be in Japanese.
+
+# Expectations:
+Please create one scenario about a security incident that might actually happen.
+Then submit the question.
+The scenario should be directed to high school students and their parents.
+
+# Output format:
 {
 "scenario": "scenario text",
 "questions": [
@@ -34,8 +43,7 @@ Then, please submit a question. The format should be as follows. The format shou
   { "question_num": 4, "question_txt": "question 4 text" }
 ]
 }
--------
-The only content you will output immediately following this is the scenario and the problem statement."""
+"""
             },
             {
                 "role": "user",
@@ -54,6 +62,7 @@ def get_problem():
   try:
     res = creScenario()
     json_open = res["choices"][0]["message"]["content"]
+    print(json_open)
 
     json_load = json.loads(json_open)
     s = json_load['scenario']
